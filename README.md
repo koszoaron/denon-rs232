@@ -1,3 +1,5 @@
+# WORK IN PROGRESS - DO NOT USE
+
 # denon-rs232
 
 Async Python library to control Denon AV receivers over RS232 serial, built on [serialx](https://github.com/puddly/serialx).
