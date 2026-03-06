@@ -239,7 +239,7 @@ AVR_3310CI = ReceiverModel(
 )
 
 
-# -- Modern era (~2012-2016) --
+# -- Modern era (~2012+) --
 
 AVR_X1000 = ReceiverModel(
     name="AVR-X1000 / AVR-E300",
@@ -342,6 +342,34 @@ AVR_X4200W = ReceiverModel(
     zone3_prefix="Z3",
 )
 
+AVR_X2700H = ReceiverModel(
+    name="AVR-X2700H",
+    input_sources=frozenset({
+        InputSource.PHONO,
+        InputSource.CD,
+        InputSource.TUNER,
+        InputSource.DVD,
+        InputSource.BD,
+        InputSource.TV,
+        InputSource.SAT_CBL,
+        InputSource.MPLAY,
+        InputSource.GAME,
+        InputSource.AUX1,
+        InputSource.AUX2,
+        InputSource.NET,
+        InputSource.BT,
+        InputSource.USB_IPOD,
+        InputSource.EIGHT_K,
+    }),
+    digital_inputs=_GEN3_DIGITAL,
+    surround_modes=(
+        *_MODERN_SURROUND,
+        "DOLBY ATMOS",
+        "DTS:X",
+        "DTS:X MSTR",
+    ),
+)
+
 # -- Other (unknown model) --
 
 OTHER = ReceiverModel(
@@ -390,6 +418,7 @@ ALL_MODELS: tuple[ReceiverModel, ...] = (
     AVR_X1000,
     AVR_X4000,
     AVR_X4200W,
+    AVR_X2700H,
 )
 
 #: Models keyed by identifier string, for lookup. Includes "other".
@@ -404,5 +433,6 @@ MODELS: dict[str, ReceiverModel] = {
     "avr_x1000": AVR_X1000,
     "avr_x4000": AVR_X4000,
     "avr_x4200w": AVR_X4200W,
+    "avr_x2700h": AVR_X2700H,
     "other": OTHER,
 }

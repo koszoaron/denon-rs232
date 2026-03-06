@@ -637,6 +637,17 @@ async def test_query_video_select(receiver, mock_serial):
     assert result == InputSource.DVD
 
 
+async def test_query_video_select_off_returns_none(receiver, mock_serial):
+    async def respond():
+        await asyncio.sleep(0.05)
+        mock_serial.inject_response("SVOFF")
+
+    task = asyncio.create_task(respond())
+    result = await receiver.query_video_select()
+    await task
+    assert result is None
+
+
 async def test_query_rec_select(receiver, mock_serial):
     async def respond():
         await asyncio.sleep(0.05)
@@ -883,6 +894,18 @@ async def test_video_select_source_event(receiver, mock_serial):
     await asyncio.sleep(0.1)
 
     assert states[-1].video_select is None
+
+
+async def test_video_select_off_event(receiver, mock_serial, caplog):
+    """SV OFF should clear video_select to None without warning."""
+    states: list[DenonState] = []
+    receiver.subscribe(lambda s: states.append(s))
+
+    mock_serial.inject_response("SVOFF")
+    await asyncio.sleep(0.1)
+
+    assert states[-1].video_select is None
+    assert "Unknown video source: OFF" not in caplog.text
 
 
 # -- Event tests: rec select --

@@ -89,6 +89,7 @@ class InputSource(Enum):
     NET = "NET"
     BT = "BT"
     USB_IPOD = "USB/IPOD"
+    EIGHT_K = "8K"
 
     # Streaming / online services
     PANDORA = "PANDORA"
@@ -538,8 +539,11 @@ class DenonReceiver:
         """Cancel video select (return to following input source)."""
         await self._send_command("SV", "SOURCE")
 
-    async def query_video_select(self) -> InputSource:
-        return InputSource(await self._query("SV"))
+    async def query_video_select(self) -> InputSource | None:
+        param = await self._query("SV")
+        if param in ("SOURCE", "OFF"):
+            return None
+        return InputSource(param)
 
     # -- Rec select commands --
 
@@ -847,7 +851,7 @@ class DenonReceiver:
                 _LOGGER.warning("Unknown digital input mode: %s", param)
 
         elif prefix == "SV":
-            if param == "SOURCE":
+            if param in ("SOURCE", "OFF"):
                 self._state.video_select = None
                 changed = True
             else:

@@ -11,6 +11,7 @@ from denon_rs232.models import (
     AVR_4308CI,
     AVR_987,
     AVR_X1000,
+    AVR_X2700H,
     AVR_X4000,
     AVR_X4200W,
 )
@@ -157,14 +158,29 @@ def test_avr_x4200w_zone3():
     assert AVR_X4200W.zone3_prefix == "Z3"
 
 
+# -- AVR-X2700H (modern with 8K source) --
+
+
+def test_avr_x2700h_has_8k_and_modern_core_sources():
+    assert InputSource.EIGHT_K in AVR_X2700H.input_sources
+    assert InputSource.BD in AVR_X2700H.input_sources
+    assert InputSource.MPLAY in AVR_X2700H.input_sources
+    assert InputSource.NET in AVR_X2700H.input_sources
+
+
+def test_avr_x2700h_no_zone3():
+    assert AVR_X2700H.zone3_prefix is None
+
+
 # -- General model checks --
 
 
 def test_all_models_tuple():
     """ALL_MODELS should contain all defined models."""
-    assert len(ALL_MODELS) == 10
+    assert len(ALL_MODELS) == 11
     assert AVR_3805 in ALL_MODELS
     assert AVR_X4200W in ALL_MODELS
+    assert AVR_X2700H in ALL_MODELS
 
 
 def test_all_models_have_auto_digital():
