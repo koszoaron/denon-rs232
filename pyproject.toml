@@ -28,7 +28,7 @@ classifiers = [
 denon-rs232 = "denon_rs232.__main__:main"
 
 [project.urls]
-Repository = "https://github.com/balloob/denon-rs232"
+Repository = "https://github.com/home-assistant-libs/denon-rs232"
 
 [build-system]
 requires = ["uv_build>=0.8.4,<0.9.0"]
