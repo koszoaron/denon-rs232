@@ -294,6 +294,12 @@ state.zone_3.volume  # float in dB
 receiver = DenonReceiver("/dev/ttyUSB0", zone3_prefix="Z1")
 ```
 
+**Zone half dB volume steps**: some models (AVR-3805) only support integer values in the Zone 2/3 volume settings. Half dB zone volume steps are enabled by default, use `zone_half_db_volume_step=False` for affected models:
+
+```python
+receiver = DenonReceiver("/dev/ttyUSB0", zone_half_db_volume_step=False)
+```
+
 ### Source probing
 
 Discover which input sources the receiver actually supports by trying each one:
