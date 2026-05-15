@@ -87,6 +87,33 @@ def test_volume_to_param_half_db_negative():
     assert _volume_to_param(-0.5) == "795"
 
 
+def test_volume_to_param_zero_padding():
+    assert _volume_to_param(-78) == "02"
+
+
+def test_volume_to_param_zero_padding_half():
+    assert _volume_to_param(-78.5) == "015"
+
+
+def test_volume_to_param_half_step_on():
+    assert _volume_to_param(-30) == "50"
+    assert _volume_to_param(-30, half_step=True) == "50"
+    assert _volume_to_param(-29.5) == "505"
+    assert _volume_to_param(-29.5, half_step=True) == "505"
+
+
+def test_volume_to_param_half_step_off():
+    assert _volume_to_param(-30, half_step=False) == "50"
+    assert _volume_to_param(-29.5, half_step=False) == "50"
+    assert _volume_to_param(-29, half_step=False) == "51"
+    assert _volume_to_param(-28.6, half_step=False) == "51"
+    assert _volume_to_param(-28.5, half_step=False) == "51"
+    assert _volume_to_param(-28.4, half_step=False) == "51"
+    assert _volume_to_param(-0.5, half_step=False) == "79"
+    assert _volume_to_param(0.5, half_step=False) == "80"
+    assert _volume_to_param(-78.5, half_step=False) == "01"
+
+
 def test_volume_roundtrip():
     for db in [-80, -20, -10.5, -0.5, 0, 0.5, 10, 18]:
         assert _parse_volume_param(_volume_to_param(db)) == db

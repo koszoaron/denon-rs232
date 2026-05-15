@@ -20,13 +20,15 @@ def parse_volume_param(param: str) -> float:
     return int(param) - 80
 
 
-def volume_to_param(db: float) -> str:
+def volume_to_param(db: float, half_step: bool = True) -> str:
     """Convert a dB value to the master volume protocol parameter."""
     if db <= -80:
         return "99"
 
     raw = db + 80
     whole = int(raw)
+    if not half_step:
+        return f"{whole:02d}"
     if raw - whole >= 0.5:
         return f"{whole:02d}5"
     return f"{whole:02d}"
