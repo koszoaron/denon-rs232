@@ -47,6 +47,10 @@ def test_avr_3805_zone3_prefix():
     assert AVR_3805.zone3_prefix == "Z1"
 
 
+def test_avr_3805_does_not_support_half_volume_steps():
+    assert AVR_3805.zone_half_step_volume == False
+
+
 # -- AVR-3803 (legacy with full digital set) --
 
 

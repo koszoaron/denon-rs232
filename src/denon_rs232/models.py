@@ -21,6 +21,9 @@ class ReceiverModel:
     #: Query prefixes to skip during connect() because the receiver does not
     #: answer them even though older models may.
     unsupported_startup_queries: frozenset[str] = frozenset()
+    #: Whether Zone 2 or 3 supports 0.5 volume steps, as in "Z2805".
+    #: False means the trailing "5" is stripped from the command: "Z280".
+    zone_half_step_volume: bool = True
 
 
 # -- Common source/digital sets used across multiple models --
@@ -174,6 +177,7 @@ AVR_3805 = ReceiverModel(
     digital_inputs=_GEN1_DIGITAL,
     surround_modes=_LEGACY_SURROUND,
     zone3_prefix="Z1",
+    zone_half_step_volume=False,
 )
 
 AVR_987 = ReceiverModel(

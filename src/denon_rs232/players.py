@@ -36,6 +36,7 @@ class _BasePlayer:
         power_standby_parameter: str,
         input_source_command: str,
         volume_command: str,
+        half_step_volume: bool = True,
     ) -> None:
         self._receiver = receiver
         self._state = state
@@ -43,6 +44,7 @@ class _BasePlayer:
         self._power_standby_parameter = power_standby_parameter
         self._input_source_command = input_source_command
         self._volume_command = volume_command
+        self._half_step_volume = half_step_volume
 
     @property
     def power(self) -> bool | None:
@@ -99,7 +101,7 @@ class _BasePlayer:
         """Set this player's volume in dB."""
         await self._receiver._send_command(
             self._volume_command,
-            volume_to_param(db),
+            volume_to_param(db, self._half_step_volume),
         )
 
     async def query_power(self) -> bool:
@@ -121,6 +123,7 @@ class MainPlayer(_BasePlayer):
             power_standby_parameter="OFF",
             input_source_command="SI",
             volume_command="MV",
+            half_step_volume=True,
         )
 
     @property
@@ -282,6 +285,5 @@ class MainPlayer(_BasePlayer):
 
 class ZonePlayer(_BasePlayer):
     """Stateful control surface for a Denon zone."""
-
 
 DenonPlayer: TypeAlias = MainPlayer | ZonePlayer
